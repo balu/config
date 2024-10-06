@@ -1,0 +1,54 @@
+#+TITLE: My Bash Configuration
+#+AUTHOR: Balagopal Komarath
+
+You can do =M-x org-babel-tangle= to build my bash configuration files
+from this document.
+
+The file =.bash_aliases= in the home directory contains all shell
+aliases.
+
+Some convenience aliases for directory navigation.
+#+begin_src bash :tangle "../../.bash_aliases"
+  alias ls='ls --group-directories-first --color=auto'
+  alias ll='ls -l'
+  alias la='ls -a'
+  alias ..='cd ..'
+  alias ..2='cd ../..'
+  alias ..3='cd ../../..'
+#+end_src
+
+Python:
+#+begin_src bash :tangle "../../.bash_aliases"
+  alias pymkenv='python3 -m venv .venv'
+  alias pyenv='source .venv/bin/activate'
+  alias pipi='pip install'
+  alias pipir='pip install -r requirements.txt'
+#+end_src
+
+APT:
+#+begin_src bash :tangle "../../.bash_aliases"
+  alias aptu='sudo apt upgrade'
+  alias apti='sudo apt install'
+#+end_src
+
+We setup bash itself to get a nice experience and then source all the
+aliases.
+#+begin_src bash :tangle "../../.bashrc"
+  shopt -sq autocd checkwinsize globstar
+
+  PS1="\u:\W$ "
+  PS2="> "
+
+  if [ -f ~/.bash_aliases ]
+  then
+      source ~/.bash_aliases
+  fi
+#+end_src
+
+The =.bash_profile= file only sources =.bashrc=.
+#+begin_src bash :tangle "../../.bash_profile"
+  if [ -f ~/.bashrc ]
+  then
+      source ~/.bashrc
+  fi
+#+end_src

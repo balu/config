@@ -1,0 +1,88 @@
+#+TITLE: My Emacs Configuration
+#+AUTHOR: Balagopal Komarath
+
+You can do =M-x org-babel-tangle= to build the emacs configuration
+file from this document.
+
+First, we add melpa to package archives to get access to a larger set
+of packages.
+#+begin_src emacs-lisp :tangle "../../.emacs.d/init.el"
+  (require 'package)
+  (add-to-list 'package-archives
+	       '("melpa" . "https://melpa.org/packages/"))
+#+end_src
+
+The following block can be executed to install all necessary packages
+for the configuration. Place the point in the code block and do =M-x
+org-babel-execute-src-block=.
+#+begin_src emacs-lisp :results silent
+  (package-install 'counsel)
+  (package-install 'auctex)
+#+end_src
+
+Set the preferred initial frame parameters.
+#+begin_src emacs-lisp :tangle "../../.emacs.d/init.el"
+  (setq initial-frame-alist
+	'((width . 80) (height . 24)))
+#+end_src
+
+Remove unnecessary clutter from the frame.
+#+begin_src emacs-lisp :tangle "../../.emacs.d/init.el"
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+#+end_src
+
+Modus themes are distributed with emacs. Load the default dark theme.
+#+begin_src emacs-lisp :tangle "../../.emacs.d/init.el"
+  (require-theme 'modus-themes)
+  (load-theme 'modus-vivendi)
+#+end_src
+
+Enable ivy globally for completion in the minibuffer for search,
+finding files, and similar stuff.
+#+begin_src emacs-lisp :tangle "../../.emacs.d/init.el"
+  (ivy-mode 1)
+#+end_src
+
+* Website
+
+This section contains configuration for publishing my website.
+
+#+begin_src emacs-lisp :tangle "../../.emacs.d/init.el"
+  (setq org-publish-project-alist
+	'(("www"
+	   :base-directory "~/www/"
+	   :publishing-directory "~/pub/"
+	   :base-extension "org"
+	   :recursive t
+	   :html-doctype "html5"
+	   :html-postamble nil
+	   :html-preamble nil
+	   :html-head-include-default-style nil
+	   :html-head "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/balu/bkcss/css/bk.css\"/>"
+	   :html-head-include-scripts nil
+	   :html-use-infojs nil
+	   :html-self-link-headlines t)))
+#+end_src
+
+The =~/www= directory is a symlink to the =www= repository.
+
+* Email
+
+#+begin_src emacs-lisp :tangle "../../.emacs.d/init.el"
+  (setq gnus-select-method '(nnimap "posteo.de"))
+#+end_src
+
+When starting Gnus using =M-x gnus=, it will ask for the login
+parameters.
+
+* LaTeX
+
+This section contains configuration for AUCTeX.
+
+#+begin_src emacs-list :tangle "../../.emacs.d/init.el"
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+#+end_src
